@@ -5,11 +5,36 @@
 }
 
 .tablero {
+  grid-area: tablero;
   width: 600px;
   height: 600px;
   position: relative;
-  border: 2px solid rgba(0, 0, 0, 0.6);
+  border: 5px double rgba(0, 0, 0, 0.6);
   border-radius: 5px;
+  box-sizing: border-box;
+  transition: all ease 200ms;
+}
+
+.container span {
+  font-size: 30px;
+  color: white;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-weight: bold;
+}
+.cuadrito {
+  position: absolute;
+  display: block;
+  background-color: black;
+  border: 1px solid #3e6346;
+  box-sizing: border-box;
+}
+
+.food {
+  position: absolute;
+  display: block;
+  background-color: black;
+  border: 1px solid #3e6346;
+  box-sizing: border-box;
 }
 
 .container {
@@ -22,29 +47,51 @@
   flex-direction: column;
 }
 
-.container span {
-  font-size: 30px;
-  color: white;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  font-weight: bold;
-}
-.cuadrito {
-  position: absolute;
-  display: block;
-  width: 10px;
-  height: 10px;
-  background-color: black;
-  border: 1px solid #3e6346;
-  box-sizing: border-box;
+.controls {
+  grid-area: controls;
+  background-color: white;
+  width: 100px;
 }
 
-.food {
-  position: absolute;
-  display: block;
-  width: 10px;
-  height: 10px;
-  background-color: black;
-  border: 1px solid #3e6346;
-  box-sizing: border-box;
-  border-radius: 10px;
+@media screen and (max-width: 600px) {
+  .container {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-areas:
+      "tablero"
+      "controls";
+  }
+  .tablero {
+    grid-area: tablero;
+    width: 80vw;
+    height: 80vw;
+    position: relative;
+    border: 5px double rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: all ease 200ms;
+  }
+
+  .controls {
+    grid-area: controls;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: 40px;
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: bold;
+  }
+
+  .controls div {
+    width: 50%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+  }
+
+  .controls .vertical {
+    width: 100%;
+  }
 }
