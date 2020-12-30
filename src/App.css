@@ -1,7 +1,7 @@
 * {
   margin: 0px 0px;
   padding: 0px;
-  background-color: #86be92;
+  background-color: #c4c1bf;
 }
 
 .tablero {
@@ -13,13 +13,17 @@
   border-radius: 5px;
   box-sizing: border-box;
   transition: all ease 200ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #86be92;
 }
 
 .container span {
-  font-size: 30px;
-  color: white;
+  font-size: 15px;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   font-weight: bold;
+  color: rgba(0, 0, 0, 0.6);
 }
 .cuadrito {
   position: absolute;
@@ -47,10 +51,36 @@
   flex-direction: column;
 }
 
+.score {
+  width: 600px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  grid-area: score;
+}
+
 .controls {
   grid-area: controls;
   background-color: white;
   width: 100px;
+  display: none;
+  user-select: none;
+}
+
+.start-title {
+  font-family: "Bungee Outline", cursive;
+  font-size: 50px;
+  font-weight: bold;
+  user-select: none;
+  cursor: pointer;
+  background-color: #86be92;
+}
+
+.start-title:hover {
+  font-size: 60px;
+  color: white;
+  user-select: none;
 }
 
 @media screen and (max-width: 600px) {
@@ -59,18 +89,26 @@
     height: 100vh;
     display: grid;
     grid-template-areas:
+      "score"
       "tablero"
       "controls";
+    grid-template-rows: 20px 1fr 1fr;
   }
   .tablero {
     grid-area: tablero;
-    width: 80vw;
-    height: 80vw;
+    width: 85vw;
+    height: 85vw;
     position: relative;
     border: 5px double rgba(0, 0, 0, 0.6);
     border-radius: 5px;
     box-sizing: border-box;
     transition: all ease 200ms;
+    justify-content: center;
+    align-items: center;
+  }
+  .score {
+    width: 85vw;
+    margin-top: 5px;
   }
 
   .controls {

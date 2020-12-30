@@ -16,7 +16,8 @@ const initialState = {
 export default function Canvas() {
   const [snake, setSnake] = React.useState(initialState);
   const [food, setFood] = React.useState({ top: 30, left: 50 });
-
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [score, setScore] = React.useState(0);
   const newCoordinate = () => {
     let newCoords;
     do {
@@ -29,68 +30,72 @@ export default function Canvas() {
   };
 
   React.useEffect(() => {
-    const interval = setTimeout(() => {
-      let newHead;
-      let newBody;
-      const oldHeadCoords = {
-        top: snake.head.top,
-        left: snake.head.left,
-      };
-      switch (snake.head.direction) {
-        case "right":
-          newHead = {
-            ...snake.head,
-            left: snake.head.left + squareLong,
-          };
-          break;
-        case "top":
-          newHead = {
-            ...snake.head,
-            top: snake.head.top - squareLong,
-          };
-          break;
-        case "bot":
-          newHead = {
-            ...snake.head,
-            top: snake.head.top + squareLong,
-          };
-          break;
-        case "left":
-          newHead = {
-            ...snake.head,
-            left: snake.head.left - squareLong,
-          };
-        default:
-          break;
-      }
-
-      newBody = snake.body.map((item, idx) => {
-        if (idx === snake.body.length - 1) {
-          return oldHeadCoords;
-        } else {
-          return snake.body[idx + 1];
+    if (isPlaying) {
+      const interval = setTimeout(() => {
+        let newHead;
+        let newBody;
+        const oldHeadCoords = {
+          top: snake.head.top,
+          left: snake.head.left,
+        };
+        switch (snake.head.direction) {
+          case "right":
+            newHead = {
+              ...snake.head,
+              left: snake.head.left + squareLong,
+            };
+            break;
+          case "top":
+            newHead = {
+              ...snake.head,
+              top: snake.head.top - squareLong,
+            };
+            break;
+          case "bot":
+            newHead = {
+              ...snake.head,
+              top: snake.head.top + squareLong,
+            };
+            break;
+          case "left":
+            newHead = {
+              ...snake.head,
+              left: snake.head.left - squareLong,
+            };
+          default:
+            break;
         }
-      });
 
-      if (newHead.top === food.top && newHead.left === food.left) {
-        newBody.unshift(snake.body[0]);
-        setFood(newCoordinate);
-      }
+        newBody = snake.body.map((item, idx) => {
+          if (idx === snake.body.length - 1) {
+            return oldHeadCoords;
+          } else {
+            return snake.body[idx + 1];
+          }
+        });
 
-      const newSnake = {
-        head: newHead,
-        body: newBody,
-      };
+        if (newHead.top === food.top && newHead.left === food.left) {
+          newBody.unshift(snake.body[0]);
+          setFood(newCoordinate);
+          setScore(score + 1);
+        }
 
-      if (borderColition(newHead) || bodyColition(newHead, newBody)) {
-        setSnake(initialState);
-      } else {
-        setSnake(newSnake);
-      }
-    }, refreshTime);
+        const newSnake = {
+          head: newHead,
+          body: newBody,
+        };
 
-    return () => clearInterval(interval);
-  }, [snake]);
+        if (borderColition(newHead) || bodyColition(newHead, newBody)) {
+          setSnake(initialState);
+          setIsPlaying(false);
+        } else {
+          setSnake(newSnake);
+        }
+      }, refreshTime);
+
+      return () => clearInterval(interval);
+    }
+  }, [snake, isPlaying]);
 
   const move = (e) => {
     e.preventDefault();
@@ -177,42 +182,60 @@ export default function Canvas() {
         break;
     }
   };
+
+  const startNewGame = () => {
+    setIsPlaying(true);
+    setScore(0);
+  };
+
   return (
     <div tabIndex="0" onKeyDown={move} className="container">
+      <div className="score">
+        <span>score: </span>
+        <span>{score}</span>
+      </div>
       <div className="tablero">
-        <div
-          className="cuadrito"
-          style={{
-            top: `${snake.head.top}%`,
-            left: `${snake.head.left}%`,
-            width: `${squareLong}%`,
-            height: `${squareLong}%`,
-          }}
-        ></div>
-        {snake.body.map((item, idx) => {
-          return (
+        {isPlaying ? (
+          <>
             <div
-              key={idx}
               className="cuadrito"
               style={{
-                top: `${item.top}%`,
-                left: `${item.left}%`,
+                top: `${snake.head.top}%`,
+                left: `${snake.head.left}%`,
                 width: `${squareLong}%`,
                 height: `${squareLong}%`,
               }}
             ></div>
-          );
-        })}
-        <div
-          className="food"
-          style={{
-            top: `${food.top}%`,
-            left: `${food.left}%`,
-            width: `${squareLong}%`,
-            height: `${squareLong}%`,
-            borderRadius: `${100}%`,
-          }}
-        ></div>
+            {snake.body.map((item, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className="cuadrito"
+                  style={{
+                    top: `${item.top}%`,
+                    left: `${item.left}%`,
+                    width: `${squareLong}%`,
+                    height: `${squareLong}%`,
+                  }}
+                ></div>
+              );
+            })}
+            <div
+              className="food"
+              style={{
+                top: `${food.top}%`,
+                left: `${food.left}%`,
+                width: `${squareLong}%`,
+                height: `${squareLong}%`,
+                borderRadius: `${100}%`,
+              }}
+            ></div>
+          </>
+        ) : (
+          <div className="start-title" onClick={startNewGame}>
+            start
+          </div>
+        )}
       </div>
       <div className="controls">
         <div onClick={() => touchMove("w")} className="vertical">
@@ -230,8 +253,3 @@ export default function Canvas() {
     </div>
   );
 }
-
-/* <div>
-        <span>PUNTUACIÓN:</span>
-        <span>{snake.body.length - 2}</span>
-      </div> */
