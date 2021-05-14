@@ -3,6 +3,8 @@ import { borderColition } from "../utils/borderColition";
 import { bodyColition } from "../utils/bodyColition";
 import { foodColition } from "../utils/foodColition";
 
+import manguito from "../utils/maguito.png";
+
 const squareLong = 5;
 const refreshTime = 200;
 const initialState = {
@@ -18,6 +20,39 @@ export default function Canvas() {
   const [food, setFood] = React.useState({ top: 30, left: 50 });
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [score, setScore] = React.useState(0);
+  const [message, setMessage] = React.useState(false);
+
+  const [position, setPosition] = React.useState(0);
+
+  const diapos = [
+    <div className="proposition">
+      <p>Felicidades por llegar a los 22 pts! un muy buen número,</p>
+      <p>
+        Buenodespues de tanto pensar y pensar como hacer esto, me pareció
+        bonito hacerlo con lo que más me gusta hacer...
+      </p>
+      <p>programar y pasar tiempo contigo amor</p>
+      <p>
+        sin mas preambulos da click en la palabra{" "}
+        <span onClick={() => setPosition(1)}>continuar </span>
+        si quieres saber lo que te tengo que decir :)
+      </p>
+    </div>,
+    <div className="proposition">
+      <p>¿Me harías el favor de ser mi novia?</p>
+      <div className='button'>
+        <span onClick={() => setPosition(2)}>Si, mi pollito</span>
+      </div>
+      <div className='button'>
+        <span onClick={() => setPosition(3)}>No, soy un anfibio idiota</span>
+      </div>
+    </div>,
+    <div className="start-title">
+      Soy el hombre más feliz contigo amor, yo también quiero ser tu novio *-*
+    </div>,
+    <div className="start-title">jajajja un anfibio idiota :C</div>,
+  ];
+
   const newCoordinate = () => {
     let newCoords;
     do {
@@ -27,6 +62,13 @@ export default function Canvas() {
       };
     } while (foodColition(snake.body, newCoords));
     return newCoords;
+  };
+
+  const win = () => {
+    if (score === 22) {
+      setMessage(true);
+      setIsPlaying(false);
+    }
   };
 
   React.useEffect(() => {
@@ -96,6 +138,10 @@ export default function Canvas() {
       return () => clearInterval(interval);
     }
   }, [snake, isPlaying]);
+
+  React.useEffect(() => {
+    win();
+  }, [score]);
 
   const move = (e) => {
     e.preventDefault();
@@ -220,17 +266,19 @@ export default function Canvas() {
                 ></div>
               );
             })}
-            <div
+            <img
               className="food"
+              src={manguito}
               style={{
                 top: `${food.top}%`,
                 left: `${food.left}%`,
                 width: `${squareLong}%`,
                 height: `${squareLong}%`,
-                borderRadius: `${100}%`,
               }}
-            ></div>
+            />
           </>
+        ) : message ? (
+          <>{diapos[position]}</>
         ) : (
           <div className="start-title" onClick={startNewGame}>
             start

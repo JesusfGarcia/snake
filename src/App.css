@@ -1,7 +1,7 @@
 * {
   margin: 0px 0px;
   padding: 0px;
-  background-color: #c4c1bf;
+  background-color: #67cfe7;
 }
 
 .tablero {
@@ -9,35 +9,35 @@
   width: 600px;
   height: 600px;
   position: relative;
-  border: 5px double rgba(0, 0, 0, 0.6);
+  border: 5px double #cea1a3;
   border-radius: 5px;
   box-sizing: border-box;
   transition: all ease 200ms;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #86be92;
+  background-color: #7eb6a7;
 }
 
 .container span {
   font-size: 15px;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   font-weight: bold;
-  color: rgba(0, 0, 0, 0.6);
+  color: #cea1a3;
 }
 .cuadrito {
   position: absolute;
   display: block;
   background-color: black;
-  border: 1px solid #3e6346;
+  border: 1px double #3e6346;
   box-sizing: border-box;
+  border-radius: 10px;
 }
 
 .food {
   position: absolute;
   display: block;
-  background-color: black;
-  border: 1px solid #3e6346;
+  background-color: #7eb6a7;
   box-sizing: border-box;
 }
 
@@ -74,7 +74,33 @@
   font-weight: bold;
   user-select: none;
   cursor: pointer;
-  background-color: #86be92;
+  background-color: #7eb6a7;
+  text-align: center;
+}
+
+.proposition {
+  font-family: "Bungee Outline", cursive;
+  font-size: 30px;
+  font-weight: bold;
+  user-select: none;
+
+  background-color: #7eb6a7;
+  text-align: center;
+}
+
+.proposition p {
+  background-color: #7eb6a7;
+}
+
+.proposition span {
+  color: white;
+  font-family: "Bungee Outline", cursive;
+  font-size: 30px;
+  font-weight: bold;
+  user-select: none;
+  background-color: #7eb6a7;
+  cursor: pointer;
+  text-align: center;
 }
 
 .start-title:hover {
@@ -99,7 +125,7 @@
     width: 85vw;
     height: 85vw;
     position: relative;
-    border: 5px double rgba(0, 0, 0, 0.6);
+    border: 5px double #cea1a3;
     border-radius: 5px;
     box-sizing: border-box;
     transition: all ease 200ms;
@@ -117,7 +143,7 @@
     display: flex;
     flex-direction: column;
     font-size: 40px;
-    color: rgba(0, 0, 0, 0.6);
+    color: #cea1a3;
     font-weight: bold;
   }
 
@@ -132,4 +158,13 @@
   .controls .vertical {
     width: 100%;
   }
+}
+
+
+.button {
+  background-color: #7eb6a7;
+  border: double 2px #000;
+  border-radius: 10px;
+  width: 90%;
+  margin: 5px auto;
 }
